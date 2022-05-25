@@ -1,0 +1,70 @@
+#!/bin/bash
+
+PS3='Type any options: '
+options=("Install + Add" "Add" "Quit")
+select opt in "${options[@]}"; do
+    case $opt in
+    "Install + Add")
+        echo "Installing Tailwind in current directory"
+        yarn add -D tailwindcss postcss autoprefixer
+        yarn tailwindcss init -p
+        break
+        ;;
+    "Add")
+        echo "Adding required imports"
+        break
+        ;;
+    "Quit")
+        exit 0
+        ;;
+    *)
+        echo "Invalid option, please select again"
+        ;;
+    esac
+done
+
+# if ! brew list gnu-sed &>/dev/null; then
+#     echo "gnu-sed is not installed. Installing..."
+#     echo "Installing gnu-sed"
+#     brew install gnu-sed
+# else
+#     echo "gnu-sed is already installed"
+# fi
+
+# PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+# echo "gnu-sed installed to PATH"
+sed -i '' 's$content: \[\],$content: \[\n\t\t"./pages/**/*.\{js,ts,jsx,tsx\}",\n\t\t"./components/**/*.\{js,ts,jsx,tsx\}",\n\t\],$g' tailwind.config.js
+if [ -s styles/globals.css ]; then
+    NEW=$(tr '\n' ' ' <styles/globals.css)
+    ORG="@tailwind base; @tailwind components; @tailwind utilities;"
+    if ! grep -q "$ORG" <<<"$NEW"; then
+        sed -i '' '1 i\
+@tailwind base;\
+@tailwind components;\
+@tailwind utilities;' styles/globals.css
+    else
+        echo "Tailwind is already imported in globals.css"
+    fi
+else
+    if ! grep -Fxq "@tailwind base;" styles/globals.css; then
+        printf "@tailwind base;" >>styles/globals.css
+    fi
+
+    if ! grep -Fxq "@tailwind components;" styles/globals.css; then
+        printf "\n@tailwind components;" >>styles/globals.css
+    fi
+
+    if ! grep -Fxq "@tailwind utilities;" styles/globals.css; then
+        printf "\n@tailwind utilities;" >>styles/globals.css
+    fi
+fi
+
+ORG="import \"../styles/globals.css\";"
+NEW=$(tr '\n' ' ' <pages/_app.tsx)
+if ! grep -q "$ORG" <<<"$NEW"; then
+    sed -i '' '1 i\
+import "../styles/globals.css";\
+' pages/_app.tsx
+else
+    echo "tailwind is already imported in _app.tsx"
+fi
