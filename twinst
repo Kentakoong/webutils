@@ -41,7 +41,9 @@ if [ -s styles/globals.css ]; then
         sed -i '' '1 i\
 @tailwind base;\
 @tailwind components;\
-@tailwind utilities;' styles/globals.css
+@tailwind utilities;\
+\
+' styles/globals.css
     else
         echo "Tailwind is already imported in globals.css"
     fi
@@ -59,11 +61,11 @@ else
     fi
 fi
 
-ORG="import \"../styles/globals.css\";"
+ORG="import \"../styles/globals.css\""
 NEW=$(tr '\n' ' ' <pages/_app.tsx)
 if ! grep -q "$ORG" <<<"$NEW"; then
     sed -i '' '1 i\
-import "../styles/globals.css";\
+import "../styles/globals.css"\
 ' pages/_app.tsx
 else
     echo "tailwind is already imported in _app.tsx"
