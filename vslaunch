@@ -1,0 +1,43 @@
+mkdir .vscode
+touch .vscode/launch.json
+
+json='{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node-terminal",
+            "name": "Install",
+            "request": "launch",
+            "command": "yarn",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "node-terminal",
+            "name": "Development",
+            "request": "launch",
+            "command": "yarn dev",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "node-terminal",
+            "name": "Code Cleanup",
+            "request": "launch",
+            "command": "yarn clean",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "node-terminal",
+            "name": "ESLint Check",
+            "request": "launch",
+            "command": "yarn lint",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}'
+
+echo $json >> .vscode/launch.json
+
+yarn add --dev --exact prettier
+echo {}> .prettierrc.json
+
+yarn prettier --write .vscode/launch.json
