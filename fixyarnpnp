@@ -1,0 +1,7 @@
+#!/bin/bash
+
+data='nodeLinker: node-modules'
+
+echo $data >.yarnrc.yml
+
+yarn install
