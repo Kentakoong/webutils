@@ -1,0 +1,7 @@
+yarn plugin import interactive-tools
+
+git add .yarnrc.yml .yarn/plugins/@yarnpkg/plugin-interactive-tools.cjs
+
+git commit -m "add: yarn upgrade-interactive"
+
+yarn upgrade-interactive
