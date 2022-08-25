@@ -11,7 +11,7 @@ sudo chmod -R 777 /your/executable/file/path
 #### Choose the executable you want, then proceed with the installation step.
 
 ```bash
-sudo ln -s /your/executable/file/path /usr/local/bin/your_executable
+sudo cp /your/executable/file/path /usr/local/bin/your_executable
 ```
 
 #### To remove it, 
