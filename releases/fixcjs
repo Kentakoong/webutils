@@ -1,0 +1,7 @@
+#!/bin/bash
+
+FILE=$(grep -rnwl --include \*.js --exclude-dir={node_modules,.yarn} './' -e 'module.exports')
+
+for file in $FILE; do
+    mv -- "$file" "${file%.js}.cjs"
+done
