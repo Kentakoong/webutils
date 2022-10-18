@@ -61,7 +61,7 @@ else
     fi
 fi
 
-ORG="import \"../styles/globals.css\""
+ORG="import \"../styles/globals.css\"" || "import '../styles/globals.css'"
 NEW=$(tr '\n' ' ' <pages/_app.tsx)
 if ! grep -q "$ORG" <<<"$NEW"; then
     sed -i '' '1 i\
